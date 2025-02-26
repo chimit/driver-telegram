@@ -551,6 +551,7 @@ class TelegramDriver extends HttpDriver
         $defaultAdditionalParameters = $this->config->get('default_additional_parameters', []);
         $parameters = array_merge_recursive([
             'chat_id' => $recipient,
+            'message_thread_id' => $matchingMessage->getPayload()['message_thread_id'] ?? null,
         ], $additionalParameters + $defaultAdditionalParameters);
 
         /*
@@ -648,6 +649,7 @@ class TelegramDriver extends HttpDriver
     {
         $parameters = array_replace_recursive([
             'chat_id' => $matchingMessage->getRecipient(),
+            'message_thread_id' => $matchingMessage->getPayload()['message_thread_id'] ?? null,
         ], $parameters);
 
         if ($this->config->get('throw_http_exceptions')) {
