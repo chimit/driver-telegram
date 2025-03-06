@@ -88,6 +88,10 @@ class TelegramDriver extends HttpDriver
      */
     public function buildPayload(Request $request)
     {
+        if ($request->headers->get('X-Telegram-Bot-Api-Secret-Token') !== $this->config->get('telegram')['api_secret_token']) {
+            throw new TelegramException('Invalid API secret token');
+        }
+
         $this->payload = new ParameterBag((array) json_decode($request->getContent(), true));
 
         $message = $this->payload->get('message')
@@ -634,7 +638,7 @@ class TelegramDriver extends HttpDriver
      */
     public function isConfigured()
     {
-        return !empty($this->config->get('token'));
+        return !empty($this->config->get('token')) && ! empty($this->config->get('api_secret_token'));
     }
 
     /**

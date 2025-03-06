@@ -35,7 +35,7 @@ class TelegramRegisterCommand extends Command
         $remove = $this->option('remove', null);
 
         if (! $remove) {
-            $url .= '?url='.$this->ask('What is the target url for the telegram bot?');
+            $url .= '?url='.$this->ask('What is the target url for the telegram bot?').'&secret_token='.config('botman.telegram.api_secret_token');
         }
 
         $this->info('Using '.$url);
